@@ -10,18 +10,38 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.davidc.uiwrapper.UiFragment;
+import com.davidcryer.nightfilter.R;
 import com.davidcryer.nightfilter.android.framework.services.FilterService;
 import com.davidcryer.nightfilter.android.framework.uiwrapperrepositories.UiWrapperRepository;
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 
+import butterknife.BindView;
+
 public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.Listener> {
     private final static int REQUEST_CODE_OVERLAY_PERMISSION = 1234;
     private FilterService.Binder serviceBind;
+    @BindView(R.id.toggleFilterButton)
+    private View toggleFilterButton;
+    @BindView(R.id.updateFilterButton)
+    private View updateFilterButton;
+    @BindView(R.id.colorFilterEditText)
+    private EditText colorFilterEditText;
 
     public static ControlFragment newInstance() {
         return new ControlFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

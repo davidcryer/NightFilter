@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NightFilter</string>
+
+    <string name="control.button.toggle">Toggle filter</string>
+    <string name="control.button.update">Update filter</string>
+    <string name="control.input.filterStrength.hint">Filter strength %</string>
+    <string name="control.permissionDenied">Overlay permission must be granted to use this app</string>
 </resources>
