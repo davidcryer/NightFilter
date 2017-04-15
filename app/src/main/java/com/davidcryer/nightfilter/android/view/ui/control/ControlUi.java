@@ -16,14 +16,11 @@ public interface ControlUi extends Ui {
     void unAttachFilter();
     void showRequestingPermissionState();
     void animateInRequestingPermissionState();
-    void hideRequestingPermissionState();
     void showFilterState();
     void animateInFilterState();
     void animateInFilterStateFromRequestingPermissionState();
-    void hideFilterState();
     void showPermissionNotGranted();
     void animateInPermissionNotGrantedFromRequestingPermissionState();
-    void hidePermissionNotGranted();
 
     interface Listener extends Ui.Listener {
         void onFilterServiceConnected(final ControlUi ui);

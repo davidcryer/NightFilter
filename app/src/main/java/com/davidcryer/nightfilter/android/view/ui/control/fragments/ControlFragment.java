@@ -109,11 +109,6 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void hideRequestingPermissionState() {
-
-        }
-
-        @Override
         public void showFilterState() {
 
         }
@@ -129,22 +124,12 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void hideFilterState() {
-
-        }
-
-        @Override
         public void showPermissionNotGranted() {
 
         }
 
         @Override
         public void animateInPermissionNotGrantedFromRequestingPermissionState() {
-
-        }
-
-        @Override
-        public void hidePermissionNotGranted() {
 
         }
     };
