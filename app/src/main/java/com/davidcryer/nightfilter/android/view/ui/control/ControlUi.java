@@ -14,12 +14,22 @@ public interface ControlUi extends Ui {
     void attachFilter(final int color);
     void changeFilter(final int color);
     void unAttachFilter();
+    void showRequestingPermissionState();
+    void animateInRequestingPermissionState();
+    void hideRequestingPermissionState();
+    void showFilterState();
+    void animateInFilterState();
+    void animateInFilterStateFromRequestingPermissionState();
+    void hideFilterState();
+    void showPermissionNotGranted();
+    void animateInPermissionNotGrantedFromRequestingPermissionState();
+    void hidePermissionNotGranted();
 
     interface Listener extends Ui.Listener {
+        void onFilterServiceConnected(final ControlUi ui);
         @TargetApi(Build.VERSION_CODES.M)
-        void onOverlayPermissionReturned(final boolean permissionGranted);
-        void onFilterServiceConnected();
-        void onFilterColorChanged(final int color);
-        void onFilterToggled();
+        void onOverlayPermissionReturned(final ControlUi ui, final boolean permissionGranted);
+        void onFilterColorChanged(final ControlUi ui, final int color);
+        void onFilterToggled(final ControlUi ui);
     }
 }

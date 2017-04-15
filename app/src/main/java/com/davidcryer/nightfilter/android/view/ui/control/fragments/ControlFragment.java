@@ -42,7 +42,7 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         public void onServiceConnected(ComponentName name, IBinder service) {
             serviceBind = (FilterService.Binder) service;
             if (hasEventsListener()) {
-                eventsListener().onFilterServiceConnected();
+                eventsListener().onFilterServiceConnected(ui);
             }
         }
 
@@ -58,7 +58,7 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (requestCode == REQUEST_CODE_OVERLAY_PERMISSION) {
                 if (hasEventsListener()) {
-                    eventsListener().onOverlayPermissionReturned(Settings.canDrawOverlays(getActivity()));
+                    eventsListener().onOverlayPermissionReturned(ui, Settings.canDrawOverlays(getActivity()));
                 }
             }
         }
@@ -96,6 +96,56 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         @Override
         public void unAttachFilter() {
             serviceBind.unAttachFilter();
+        }
+
+        @Override
+        public void showRequestingPermissionState() {
+
+        }
+
+        @Override
+        public void animateInRequestingPermissionState() {
+
+        }
+
+        @Override
+        public void hideRequestingPermissionState() {
+
+        }
+
+        @Override
+        public void showFilterState() {
+
+        }
+
+        @Override
+        public void animateInFilterState() {
+
+        }
+
+        @Override
+        public void animateInFilterStateFromRequestingPermissionState() {
+
+        }
+
+        @Override
+        public void hideFilterState() {
+
+        }
+
+        @Override
+        public void showPermissionNotGranted() {
+
+        }
+
+        @Override
+        public void animateInPermissionNotGrantedFromRequestingPermissionState() {
+
+        }
+
+        @Override
+        public void hidePermissionNotGranted() {
+
         }
     };
 

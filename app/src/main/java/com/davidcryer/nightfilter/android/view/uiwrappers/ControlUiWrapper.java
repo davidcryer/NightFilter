@@ -1,5 +1,6 @@
 package com.davidcryer.nightfilter.android.view.uiwrappers;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import com.davidc.uiwrapper.UiWrapper;
@@ -7,7 +8,7 @@ import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 import com.davidcryer.nightfilter.android.view.uimodels.control.ControlUiModel;
 import com.davidcryer.nightfilter.android.view.uimodels.control.ControlUiModelFactory;
 
-public class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
+class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
     private final static String ARG_VIEW_MODEL = ControlUiModel.class.getSimpleName();
     private final ControlUiModel uiModel;
 
@@ -15,11 +16,11 @@ public class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
         this.uiModel = uiModel;
     }
 
-    public static ControlUiWrapper newInstance(final ControlUiModelFactory uiModelFactory) {
+    static ControlUiWrapper newInstance(final ControlUiModelFactory uiModelFactory) {
         return new ControlUiWrapper(uiModelFactory.create());
     }
 
-    public static ControlUiWrapper savedElseNewInstance(final ControlUiModelFactory uiModelFactory, final Bundle savedState) {
+    static ControlUiWrapper savedElseNewInstance(final ControlUiModelFactory uiModelFactory, final Bundle savedState) {
         final ControlUiModel uiModel = savedState.getParcelable(ARG_VIEW_MODEL);
         return uiModel == null ? newInstance(uiModelFactory) : new ControlUiWrapper(uiModel);
     }
@@ -35,7 +36,36 @@ public class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
     }
 
     private final ControlUi.Listener uiListener = new ControlUi.Listener() {
+        @Override
+        public void onFilterServiceConnected(ControlUi ui) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!ui.hasOverlayPermission()) {
+                    ui.requestOverlayPermission();
+                    ui.showRequestingPermissionState();
+                    return;
+                }
+            }
+            ui.animateInFilterState();
+        }
 
+        @Override
+        public void onOverlayPermissionReturned(ControlUi ui, boolean permissionGranted) {
+            if (permissionGranted) {
+                ui.animateInFilterStateFromRequestingPermissionState();
+            } else {
+                ui.animateInPermissionNotGrantedFromRequestingPermissionState();
+            }
+        }
+
+        @Override
+        public void onFilterColorChanged(ControlUi ui, int color) {
+
+        }
+
+        @Override
+        public void onFilterToggled(ControlUi ui) {
+
+        }
     };
 
     @Override
