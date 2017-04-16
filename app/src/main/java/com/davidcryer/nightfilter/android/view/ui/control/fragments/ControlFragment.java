@@ -65,9 +65,12 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     public void onStop() {
         super.onStop();
         final boolean stopService = !serviceBind.isFilterAttached();
-        getActivity().unbindService(filterServiceConnection);
         if (stopService) {
+            getActivity().unbindService(filterServiceConnection);
             getActivity().stopService(new Intent(getActivity(), FilterService.class));
+        } else {
+            serviceBind.startForeground();
+            getActivity().unbindService(filterServiceConnection);
         }
     }
 
