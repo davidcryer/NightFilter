@@ -32,13 +32,13 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     private Unbinder viewUnbinder;
     private FilterService.Binder serviceBind;
     @BindView(R.id.toggleFilterButton)
-    private View toggleFilterButton;
+    View toggleFilterButton;
 //    @BindView(R.id.updateFilterButton)
-//    private View updateFilterButton;
+//    View updateFilterButton;
 //    @BindView(R.id.colorFilterEditText)
-//    private EditText colorFilterEditText;
+//    EditText colorFilterEditText;
     @BindView(R.id.permissionDeniedTextView)
-    private TextView permissionDeniedTextView;
+    TextView permissionDeniedTextView;
 
     public static ControlFragment newInstance() {
         return new ControlFragment();
@@ -104,7 +104,7 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
 
     @SuppressWarnings("unused")
     @OnClick(R.id.toggleFilterButton)
-    private void toggleFilter() {
+    void toggleFilter() {
         if (hasEventsListener()) {
             eventsListener().onFilterToggled(ui);
         }
