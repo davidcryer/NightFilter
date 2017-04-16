@@ -62,7 +62,7 @@ public class FilterService extends Service {
 
     public void changeFilter(final int color) {
         StateChecker.notNull(filterView, "filterView has not been set up");
-        filterView.setBackgroundResource(color);
+        filterView.setBackgroundColor(color);
     }
 
     private void removeFilter() {
