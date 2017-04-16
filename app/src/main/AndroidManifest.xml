@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.davidcryer.nightfilter">
 
+    <uses-permission-sdk-23 android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    
     <application
         android:name=".android.framework.applications.NightFilterApplication"
         android:allowBackup="true"
@@ -18,6 +20,7 @@
         </activity>
 
         <service android:name=".android.framework.services.FilterService" />
+
     </application>
 
 </manifest>
