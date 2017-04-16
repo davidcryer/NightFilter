@@ -151,13 +151,13 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void showFilterState() {
+        public void showControlState() {
             toggleFilterButton.setVisibility(View.VISIBLE);
             permissionDeniedTextView.setVisibility(View.GONE);
         }
 
         @Override
-        public void animateInFilterState() {
+        public void animateInControlState() {
             toggleFilterButton.setVisibility(View.VISIBLE);
         }
 

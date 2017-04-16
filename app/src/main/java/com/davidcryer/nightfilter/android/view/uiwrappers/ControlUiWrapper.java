@@ -44,13 +44,13 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
                     return;
                 }
             }
-            uiModel.animateInFilterState(ui);
+            uiModel.animateInControlState(ui);
         }
 
         @Override
         public void onOverlayPermissionReturned(ControlUi ui, boolean permissionGranted) {
             if (permissionGranted) {
-                uiModel.animateInFilterState(ui);
+                uiModel.animateInControlState(ui);
             } else {
                 uiModel.animateInPermissionNotGranted(ui);
             }

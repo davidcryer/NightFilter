@@ -15,8 +15,8 @@ public interface ControlUi extends Ui {
     void changeFilter(final int color);
     void unAttachFilter();
     void showBlankState();
-    void showFilterState();
-    void animateInFilterState();
+    void showControlState();
+    void animateInControlState();
     @TargetApi(Build.VERSION_CODES.M)
     void showPermissionNotGranted();
     @TargetApi(Build.VERSION_CODES.M)

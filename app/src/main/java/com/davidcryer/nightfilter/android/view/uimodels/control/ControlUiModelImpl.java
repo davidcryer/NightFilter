@@ -70,10 +70,10 @@ class ControlUiModelImpl implements ControlUiModel {
     }
 
     @Override
-    public void animateInFilterState(ControlUi ui) {
+    public void animateInControlState(ControlUi ui) {
         uiState = UiState.SHOW_CONTROL;
         if (ui != null) {
-            ui.animateInFilterState();
+            ui.animateInControlState();
         }
     }
 
@@ -94,7 +94,7 @@ class ControlUiModelImpl implements ControlUiModel {
                 break;
             }
             case SHOW_CONTROL: {
-                ui.showFilterState();
+                ui.showControlState();
                 break;
             }
             case SHOW_PERMISSION_DENIED: {

@@ -12,7 +12,7 @@ public interface ControlUiModel extends UiModel<ControlUi> {
     void attachFilter(final ControlUi ui, final int color);
     void changeFilter(final ControlUi ui, final int color);
     void unAttachFilter(final ControlUi ui);
-    void animateInFilterState(final ControlUi ui);
+    void animateInControlState(final ControlUi ui);
     @TargetApi(Build.VERSION_CODES.M)
     void animateInPermissionNotGranted(final ControlUi ui);
 }
