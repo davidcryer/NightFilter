@@ -2,17 +2,14 @@ package com.davidcryer.nightfilter.android.framework.services;
 
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.davidcryer.nightfilter.android.helpers.DisplayHelper;
+import com.davidcryer.nightfilter.android.helpers.WindowManagerLayoutParamsFactory;
 import com.davidcryer.nightfilter.platformindependent.helpers.StateChecker;
 
 public class FilterService extends Service {
@@ -59,18 +56,7 @@ public class FilterService extends Service {
     private void attachFilter(@ColorRes final int color) {
         if (filterView == null) {
             filterView = new View(this);
-            final DisplayHelper.Metrics metrics = DisplayHelper.metrics(this.getApplicationContext());
-            WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                    metrics.width,
-                    metrics.height,
-                    WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                            | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                            | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                            | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    PixelFormat.TRANSLUCENT);
-            params.gravity = Gravity.TOP;
-            windowManager().addView(filterView, params);
+            windowManager().addView(filterView, WindowManagerLayoutParamsFactory.wholeScreenLayoutParams(this));
         }
         changeFilter(color);
     }
