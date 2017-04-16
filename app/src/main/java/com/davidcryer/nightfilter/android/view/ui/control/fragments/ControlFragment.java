@@ -145,14 +145,9 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void showRequestingPermissionState() {
+        public void showBlankState() {
             toggleFilterButton.setVisibility(View.GONE);
             permissionDeniedTextView.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void animateInRequestingPermissionState() {
-
         }
 
         @Override
@@ -167,18 +162,13 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void animateInFilterStateFromRequestingPermissionState() {
-            toggleFilterButton.setVisibility(View.VISIBLE);
-        }
-
-        @Override
         public void showPermissionNotGranted() {
             toggleFilterButton.setVisibility(View.GONE);
             permissionDeniedTextView.setVisibility(View.VISIBLE);
         }
 
         @Override
-        public void animateInPermissionNotGrantedFromRequestingPermissionState() {
+        public void animateInPermissionNotGranted() {
             permissionDeniedTextView.setVisibility(View.VISIBLE);
         }
     };

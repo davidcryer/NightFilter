@@ -14,13 +14,13 @@ public interface ControlUi extends Ui {
     void attachFilter(final int color);
     void changeFilter(final int color);
     void unAttachFilter();
-    void showRequestingPermissionState();
-    void animateInRequestingPermissionState();
+    void showBlankState();
     void showFilterState();
     void animateInFilterState();
-    void animateInFilterStateFromRequestingPermissionState();
+    @TargetApi(Build.VERSION_CODES.M)
     void showPermissionNotGranted();
-    void animateInPermissionNotGrantedFromRequestingPermissionState();
+    @TargetApi(Build.VERSION_CODES.M)
+    void animateInPermissionNotGranted();
 
     interface Listener extends Ui.Listener {
         void onFilterServiceConnected(final ControlUi ui);

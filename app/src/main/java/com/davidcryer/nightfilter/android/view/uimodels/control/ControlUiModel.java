@@ -7,9 +7,12 @@ import com.davidc.uiwrapper.UiModel;
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 
 public interface ControlUiModel extends UiModel<ControlUi> {
-    void onFilterServiceConnected(final ControlUi ui);
     @TargetApi(Build.VERSION_CODES.M)
-    void onOverlayPermissionReturned(final ControlUi ui, final boolean permissionGranted);
-    void onFilterColorChanged(final ControlUi ui, final int color);
-    void onFilterToggled(final ControlUi ui);
+    void requestOverlayPermission(final ControlUi ui);
+    void attachFilter(final ControlUi ui, final int color);
+    void changeFilter(final ControlUi ui, final int color);
+    void unAttachFilter(final ControlUi ui);
+    void animateInFilterState(final ControlUi ui);
+    @TargetApi(Build.VERSION_CODES.M)
+    void animateInPermissionNotGranted(final ControlUi ui);
 }
