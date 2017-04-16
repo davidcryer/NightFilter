@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     public void onStart() {
         super.onStart();
         final Intent intent = new Intent(getActivity(), FilterService.class);
+        getActivity().startService(intent);
         getActivity().bindService(intent, filterServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
@@ -130,12 +132,12 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void attachFilter(int color) {
+        public void attachFilter(@ColorRes int color) {
             serviceBind.attachFilter(color);
         }
 
         @Override
-        public void changeFilter(int color) {
+        public void changeFilter(@ColorRes int color) {
             serviceBind.changeFilter(color);
         }
 

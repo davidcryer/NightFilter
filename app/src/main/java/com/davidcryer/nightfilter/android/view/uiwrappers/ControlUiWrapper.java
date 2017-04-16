@@ -2,8 +2,10 @@ package com.davidcryer.nightfilter.android.view.uiwrappers;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 
 import com.davidc.uiwrapper.UiWrapper;
+import com.davidcryer.nightfilter.R;
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 import com.davidcryer.nightfilter.android.view.uimodels.control.ControlUiModel;
 import com.davidcryer.nightfilter.android.view.uimodels.control.ControlUiModelFactory;
@@ -57,7 +59,7 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
         }
 
         @Override
-        public void onFilterColorChanged(ControlUi ui, int color) {
+        public void onFilterColorChanged(ControlUi ui, @ColorRes int color) {
             uiModel.changeFilter(ui, color);
         }
 
@@ -66,7 +68,7 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
             if (ui.isFilterAttached()) {
                 uiModel.unAttachFilter(ui);
             } else {
-                uiModel.attachFilter(ui, 0xffff00);
+                uiModel.attachFilter(ui, R.color.filter_blue);
             }
         }
     };

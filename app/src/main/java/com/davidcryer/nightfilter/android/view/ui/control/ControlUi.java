@@ -2,6 +2,7 @@ package com.davidcryer.nightfilter.android.view.ui.control;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.support.annotation.ColorRes;
 
 import com.davidc.uiwrapper.Ui;
 
@@ -11,8 +12,8 @@ public interface ControlUi extends Ui {
     @TargetApi(Build.VERSION_CODES.M)
     void requestOverlayPermission();
     boolean isFilterAttached();
-    void attachFilter(final int color);
-    void changeFilter(final int color);
+    void attachFilter(@ColorRes final int color);
+    void changeFilter(@ColorRes final int color);
     void unAttachFilter();
     void showBlankState();
     void showControlState();

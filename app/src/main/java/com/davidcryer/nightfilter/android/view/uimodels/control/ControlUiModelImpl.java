@@ -3,6 +3,7 @@ package com.davidcryer.nightfilter.android.view.uimodels.control;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Parcel;
+import android.support.annotation.ColorRes;
 
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 
@@ -49,14 +50,14 @@ class ControlUiModelImpl implements ControlUiModel {
     }
 
     @Override
-    public void attachFilter(ControlUi ui, int color) {
+    public void attachFilter(ControlUi ui, @ColorRes int color) {
         if (ui != null) {
             ui.attachFilter(color);
         }
     }
 
     @Override
-    public void changeFilter(ControlUi ui, int color) {
+    public void changeFilter(ControlUi ui, @ColorRes int color) {
         if (ui != null) {
             ui.changeFilter(color);
         }
