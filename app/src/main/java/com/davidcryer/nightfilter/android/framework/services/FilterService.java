@@ -3,19 +3,14 @@ package com.davidcryer.nightfilter.android.framework.services;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.ColorDrawable;
 import android.os.IBinder;
 import android.support.annotation.ColorRes;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.davidcryer.nightfilter.android.helpers.DisplayHelper;
 import com.davidcryer.nightfilter.platformindependent.helpers.StateChecker;
@@ -64,19 +59,18 @@ public class FilterService extends Service {
     private void attachFilter(@ColorRes final int color) {
         if (filterView == null) {
             filterView = new View(this);
-            final WindowManager windowManager = ((WindowManager) getSystemService(WINDOW_SERVICE));
-            final DisplayMetrics metrics = DisplayHelper.metrics(windowManager);
+            final DisplayHelper.Metrics metrics = DisplayHelper.metrics(this.getApplicationContext());
             WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                    metrics.widthPixels,
-                    metrics.heightPixels,
+                    metrics.width,
+                    metrics.height,
                     WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                             | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                             | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
                             | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                     PixelFormat.TRANSLUCENT);
-            params.gravity = Gravity.TOP & Gravity.START;
-            windowManager.addView(filterView, params);
+            params.gravity = Gravity.TOP;
+            windowManager().addView(filterView, params);
         }
         changeFilter(color);
     }
@@ -88,8 +82,12 @@ public class FilterService extends Service {
 
     private void removeFilter() {
         if (filterView != null) {
-            ((WindowManager) getSystemService(WINDOW_SERVICE)).removeView(filterView);
+            windowManager().removeView(filterView);
             filterView = null;
         }
+    }
+
+    private WindowManager windowManager() {
+        return ((WindowManager) getApplicationContext().getSystemService(WINDOW_SERVICE));
     }
 }

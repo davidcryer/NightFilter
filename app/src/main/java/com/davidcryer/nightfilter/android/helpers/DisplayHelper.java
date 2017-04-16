@@ -1,18 +1,24 @@
 package com.davidcryer.nightfilter.android.helpers;
 
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
+import android.content.Context;
+import android.graphics.Point;
 import android.view.WindowManager;
 
 public class DisplayHelper {
 
-    public static DisplayMetrics metrics(final WindowManager windowManager) {
-        final DisplayMetrics displayMetrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
-        return displayMetrics;
+    public static Metrics metrics(final Context context) {
+        final Point point = new Point();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRealSize(point);
+        return new Metrics(point.x, point.y);
     }
 
-    public static DisplayMetrics metrics() {
-        return Resources.getSystem().getDisplayMetrics();
+    public static class Metrics {
+        public final int width;
+        public final int height;
+
+        Metrics(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
     }
 }
