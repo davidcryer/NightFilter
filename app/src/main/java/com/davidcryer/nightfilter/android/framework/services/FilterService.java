@@ -65,7 +65,7 @@ public class FilterService extends Service {
         if (filterView == null) {
             filterView = new View(this);
             final WindowManager windowManager = ((WindowManager) getSystemService(WINDOW_SERVICE));
-            final DisplayMetrics metrics = DisplayHelper.metrics();
+            final DisplayMetrics metrics = DisplayHelper.metrics(windowManager);
             WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                     metrics.widthPixels,
                     metrics.heightPixels,
