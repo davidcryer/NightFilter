@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.davidc.uiwrapper.UiFragment;
 import com.davidcryer.nightfilter.R;
@@ -23,16 +23,22 @@ import com.davidcryer.nightfilter.android.framework.uiwrapperrepositories.UiWrap
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.Listener> {
     private final static int REQUEST_CODE_OVERLAY_PERMISSION = 1234;
+    private Unbinder viewUnbinder;
     private FilterService.Binder serviceBind;
     @BindView(R.id.toggleFilterButton)
     private View toggleFilterButton;
-    @BindView(R.id.updateFilterButton)
-    private View updateFilterButton;
-    @BindView(R.id.colorFilterEditText)
-    private EditText colorFilterEditText;
+//    @BindView(R.id.updateFilterButton)
+//    private View updateFilterButton;
+//    @BindView(R.id.colorFilterEditText)
+//    private EditText colorFilterEditText;
+    @BindView(R.id.permissionDeniedTextView)
+    private TextView permissionDeniedTextView;
 
     public static ControlFragment newInstance() {
         return new ControlFragment();
@@ -41,7 +47,9 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        final View view = inflater.inflate(R.layout.fragment_control, container, false);
+        viewUnbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -54,7 +62,11 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     @Override
     public void onStop() {
         super.onStop();
+        final boolean stopService = !serviceBind.isFilterAttached();
         getActivity().unbindService(filterServiceConnection);
+        if (stopService) {
+            getActivity().stopService(new Intent(getActivity(), FilterService.class));
+        }
     }
 
     private final ServiceConnection filterServiceConnection = new ServiceConnection() {
@@ -73,6 +85,12 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     };
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        viewUnbinder.unbind();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -81,6 +99,14 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
                     eventsListener().onOverlayPermissionReturned(ui, Settings.canDrawOverlays(getActivity()));
                 }
             }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.toggleFilterButton)
+    private void toggleFilter() {
+        if (hasEventsListener()) {
+            eventsListener().onFilterToggled(ui);
         }
     }
 
@@ -120,7 +146,8 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
 
         @Override
         public void showRequestingPermissionState() {
-
+            toggleFilterButton.setVisibility(View.GONE);
+            permissionDeniedTextView.setVisibility(View.GONE);
         }
 
         @Override
@@ -130,27 +157,29 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
 
         @Override
         public void showFilterState() {
-
+            toggleFilterButton.setVisibility(View.VISIBLE);
+            permissionDeniedTextView.setVisibility(View.GONE);
         }
 
         @Override
         public void animateInFilterState() {
-
+            toggleFilterButton.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void animateInFilterStateFromRequestingPermissionState() {
-
+            toggleFilterButton.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void showPermissionNotGranted() {
-
+            toggleFilterButton.setVisibility(View.GONE);
+            permissionDeniedTextView.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void animateInPermissionNotGrantedFromRequestingPermissionState() {
-
+            permissionDeniedTextView.setVisibility(View.VISIBLE);
         }
     };
 

@@ -41,7 +41,7 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!ui.hasOverlayPermission()) {
                     ui.requestOverlayPermission();
-                    ui.showRequestingPermissionState();
+                    ui.animateInRequestingPermissionState();
                     return;
                 }
             }
@@ -59,12 +59,16 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
 
         @Override
         public void onFilterColorChanged(ControlUi ui, int color) {
-
+            ui.changeFilter(color);
         }
 
         @Override
         public void onFilterToggled(ControlUi ui) {
-
+            if (ui.isFilterAttached()) {
+                ui.unAttachFilter();
+            } else {
+                ui.attachFilter(0xffff00);
+            }
         }
     };
 
