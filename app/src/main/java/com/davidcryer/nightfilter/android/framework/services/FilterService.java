@@ -17,6 +17,7 @@ import com.davidcryer.nightfilter.android.helpers.WindowManagerLayoutParamsFacto
 import com.davidcryer.nightfilter.platformindependent.helpers.StateChecker;
 
 public class FilterService extends Service {
+    private final static int ANIMATION_DURATION_FADE_MS = 200;
     private final static int REQUEST_CODE_CANCEL = 20000;
     private final static int NOTIFICATION_ID = 1;
     private final static String ARG_INTENT_NOTIFICATION_CANCEL = "cancel";
@@ -24,8 +25,9 @@ public class FilterService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.hasExtra(ARG_INTENT_NOTIFICATION_CANCEL)) {
+        if (intent != null && intent.hasExtra(ARG_INTENT_NOTIFICATION_CANCEL)) {
             if (intent.getBooleanExtra(ARG_INTENT_NOTIFICATION_CANCEL, false)) {
+                stopForeground(true);
                 stopSelf();
             }
         }
@@ -73,7 +75,13 @@ public class FilterService extends Service {
         if (filterView == null) {
             filterView = new View(this);
             windowManager().addView(filterView, WindowManagerLayoutParamsFactory.wholeScreenLayoutParams(this));
+            filterView.setAlpha(0);
         }
+        final int finalAlpha = 1;
+        filterView.animate()
+                .alpha(finalAlpha)
+                .setDuration(fadeDuration(finalAlpha))
+                .start();
         changeFilter(color);
     }
 
@@ -84,9 +92,23 @@ public class FilterService extends Service {
 
     private void removeFilter() {
         if (filterView != null) {
-            windowManager().removeView(filterView);
-            filterView = null;
+            final int finalAlpha = 0;
+            filterView.animate()
+                    .alpha(finalAlpha)
+                    .setDuration(fadeDuration(finalAlpha))
+                    .withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            windowManager().removeView(filterView);
+                            filterView = null;
+                        }
+                    })
+                    .start();
         }
+    }
+
+    private int fadeDuration(final float finalAlpha) {
+        return (int) (Math.abs(finalAlpha - filterView.getAlpha()) * ANIMATION_DURATION_FADE_MS);
     }
 
     private WindowManager windowManager() {
@@ -101,7 +123,6 @@ public class FilterService extends Service {
                 .setContentTitle("Night filter")
                 .setContentText("Click to remove filter")
                 .setContentIntent(PendingIntent.getService(this, REQUEST_CODE_CANCEL, intent, PendingIntent.FLAG_UPDATE_CURRENT))
-                .setAutoCancel(true)
                 .build();
         startForeground(NOTIFICATION_ID, notification);
     }
