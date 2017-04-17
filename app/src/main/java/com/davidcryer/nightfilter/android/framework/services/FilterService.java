@@ -47,12 +47,37 @@ public class FilterService extends Service {
         return binder;
     }
 
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+        stopForeground(true);
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        if (isFilterAttached()) {
+            startForeground();
+        }
+        return true;
+    }
+
+    private void startForeground() {
+        final Intent intent = new Intent(this, FilterService.class).putExtra(ARG_INTENT_NOTIFICATION_CANCEL, true);
+        final Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Night filter")
+                .setContentText("Click to remove filter")
+                .setContentIntent(PendingIntent.getService(this, REQUEST_CODE_CANCEL, intent, PendingIntent.FLAG_UPDATE_CURRENT))
+                .build();
+        startForeground(NOTIFICATION_ID, notification);
+    }
+
     private final Binder binder = new Binder();
 
     public class Binder extends android.os.Binder {
 
         public boolean isFilterAttached() {
-            return filterView != null;
+            return FilterService.this.isFilterAttached();
         }
 
         public void attachFilter(@ColorRes final int color) {
@@ -66,10 +91,10 @@ public class FilterService extends Service {
         public void unAttachFilter() {
             FilterService.this.removeFilter();
         }
+    }
 
-        public void startForeground() {
-            FilterService.this.startForeground();
-        }
+    private boolean isFilterAttached() {
+        return filterView != null;
     }
 
     private void attachFilter(@ColorRes final int color) {
@@ -101,17 +126,5 @@ public class FilterService extends Service {
 
     private WindowManager windowManager() {
         return ((WindowManager) getApplicationContext().getSystemService(WINDOW_SERVICE));
-    }
-
-    private void startForeground() {
-        final Intent intent = new Intent(this, FilterService.class);
-        intent.putExtra(ARG_INTENT_NOTIFICATION_CANCEL, true);
-        final Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Night filter")
-                .setContentText("Click to remove filter")
-                .setContentIntent(PendingIntent.getService(this, REQUEST_CODE_CANCEL, intent, PendingIntent.FLAG_UPDATE_CURRENT))
-                .build();
-        startForeground(NOTIFICATION_ID, notification);
     }
 }
