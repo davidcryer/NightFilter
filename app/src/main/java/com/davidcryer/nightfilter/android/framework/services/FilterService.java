@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.davidcryer.nightfilter.R;
+import com.davidcryer.nightfilter.android.helpers.AlphaAnimationHelper;
 import com.davidcryer.nightfilter.android.helpers.WindowManagerLayoutParamsFactory;
 import com.davidcryer.nightfilter.platformindependent.helpers.StateChecker;
 
@@ -74,14 +75,10 @@ public class FilterService extends Service {
     private void attachFilter(@ColorRes final int color) {
         if (filterView == null) {
             filterView = new View(this);
-            windowManager().addView(filterView, WindowManagerLayoutParamsFactory.wholeScreenLayoutParams(this));
             filterView.setAlpha(0);
+            windowManager().addView(filterView, WindowManagerLayoutParamsFactory.wholeScreenLayoutParams(this));
         }
-        final int finalAlpha = 1;
-        filterView.animate()
-                .alpha(finalAlpha)
-                .setDuration(fadeDuration(finalAlpha))
-                .start();
+        AlphaAnimationHelper.fadeIn(filterView, ANIMATION_DURATION_FADE_MS);
         changeFilter(color);
     }
 
@@ -92,23 +89,14 @@ public class FilterService extends Service {
 
     private void removeFilter() {
         if (filterView != null) {
-            final int finalAlpha = 0;
-            filterView.animate()
-                    .alpha(finalAlpha)
-                    .setDuration(fadeDuration(finalAlpha))
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            windowManager().removeView(filterView);
-                            filterView = null;
-                        }
-                    })
-                    .start();
+            AlphaAnimationHelper.fadeOut(filterView, ANIMATION_DURATION_FADE_MS, View.GONE, new Runnable() {
+                @Override
+                public void run() {
+                    windowManager().removeView(filterView);
+                    filterView = null;
+                }
+            });
         }
-    }
-
-    private int fadeDuration(final float finalAlpha) {
-        return (int) (Math.abs(finalAlpha - filterView.getAlpha()) * ANIMATION_DURATION_FADE_MS);
     }
 
     private WindowManager windowManager() {
