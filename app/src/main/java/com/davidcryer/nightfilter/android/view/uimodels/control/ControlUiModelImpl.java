@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Parcel;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 
@@ -88,7 +89,7 @@ class ControlUiModelImpl implements ControlUiModel {
     }
 
     @Override
-    public void onto(ControlUi ui) {
+    public void onto(@NonNull ControlUi ui) {
         switch (uiState) {
             case SHOW_BLANK: {
                 ui.showBlankState();

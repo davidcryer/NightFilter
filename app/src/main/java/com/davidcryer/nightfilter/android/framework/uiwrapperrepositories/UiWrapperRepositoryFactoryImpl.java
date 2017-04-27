@@ -1,5 +1,7 @@
 package com.davidcryer.nightfilter.android.framework.uiwrapperrepositories;
 
+import android.support.annotation.NonNull;
+
 import com.davidc.uiwrapper.UiWrapperRepositoryFactory;
 import com.davidcryer.nightfilter.android.view.uiwrappers.UiWrapperFactory;
 
@@ -11,6 +13,7 @@ public class UiWrapperRepositoryFactoryImpl implements UiWrapperRepositoryFactor
     }
 
     @Override
+    @NonNull
     public UiWrapperRepository create() {
         return new UiWrapperRepositoryImpl(uiWrapperFactory);
     }

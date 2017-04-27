@@ -8,7 +8,7 @@ import com.davidcryer.nightfilter.android.view.uiwrappers.UiWrapperFactoryImpl;
 import com.davidcryer.nightfilter.android.view.uimodels.UiModelFactoryFactory;
 import com.davidcryer.nightfilter.android.view.uimodels.UiModelFactoryFactoryImpl;
 
-public class ApplicationDependencyProvider {
+class ApplicationDependencyProvider {
 
     private ApplicationDependencyProvider() {
 

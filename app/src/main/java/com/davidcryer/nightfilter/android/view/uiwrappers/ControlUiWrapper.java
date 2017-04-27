@@ -10,12 +10,11 @@ import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 import com.davidcryer.nightfilter.android.view.uimodels.control.ControlUiModel;
 import com.davidcryer.nightfilter.android.view.uimodels.control.ControlUiModelFactory;
 
-class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
+class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener, ControlUiModel> {
     private final static String ARG_VIEW_MODEL = ControlUiModel.class.getSimpleName();
-    private final ControlUiModel uiModel;
 
     private ControlUiWrapper(ControlUiModel uiModel) {
-        this.uiModel = uiModel;
+        super(uiModel);
     }
 
     static ControlUiWrapper newInstance(final ControlUiModelFactory uiModelFactory) {
@@ -28,12 +27,7 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
     }
 
     @Override
-    protected void showCurrentUiState(ControlUi ui) {
-        uiModel.onto(ui);
-    }
-
-    @Override
-    protected ControlUi.Listener eventsListener() {
+    protected ControlUi.Listener uiListener() {
         return uiListener;
     }
 
@@ -42,39 +36,34 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener> {
         public void onFilterServiceConnected(ControlUi ui) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!ui.hasOverlayPermission()) {
-                    uiModel.requestOverlayPermission(ui);
+                    uiModel().requestOverlayPermission(ui);
                     return;
                 }
             }
-            uiModel.animateInControlState(ui);
+            uiModel().animateInControlState(ui);
         }
 
         @Override
         public void onOverlayPermissionReturned(ControlUi ui, boolean permissionGranted) {
             if (permissionGranted) {
-                uiModel.animateInControlState(ui);
+                uiModel().animateInControlState(ui);
             } else {
-                uiModel.animateInPermissionNotGranted(ui);
+                uiModel().animateInPermissionNotGranted(ui);
             }
         }
 
         @Override
         public void onFilterColorChanged(ControlUi ui, @ColorRes int color) {
-            uiModel.changeFilter(ui, color);
+            uiModel().changeFilter(ui, color);
         }
 
         @Override
         public void onFilterToggled(ControlUi ui) {
             if (ui.isFilterAttached()) {
-                uiModel.unAttachFilter(ui);
+                uiModel().unAttachFilter(ui);
             } else {
-                uiModel.attachFilter(ui, R.color.filter_blue);
+                uiModel().attachFilter(ui, R.color.filter_blue);
             }
         }
     };
-
-    @Override
-    protected void saveState(Bundle outState) {
-        outState.putParcelable(ARG_VIEW_MODEL, uiModel);
-    }
 }

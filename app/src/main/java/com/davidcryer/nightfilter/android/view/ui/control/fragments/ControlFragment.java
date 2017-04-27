@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,8 +72,8 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             serviceBind = (FilterService.Binder) service;
-            if (hasEventsListener()) {
-                eventsListener().onFilterServiceConnected(ui);
+            if (hasListener()) {
+                listener().onFilterServiceConnected(ui);
             }
         }
 
@@ -93,8 +94,8 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         super.onActivityResult(requestCode, resultCode, data);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (requestCode == REQUEST_CODE_OVERLAY_PERMISSION) {
-                if (hasEventsListener()) {
-                    eventsListener().onOverlayPermissionReturned(ui, Settings.canDrawOverlays(getActivity()));
+                if (hasListener()) {
+                    listener().onOverlayPermissionReturned(ui, Settings.canDrawOverlays(getActivity()));
                 }
             }
         }
@@ -103,8 +104,8 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     @SuppressWarnings("unused")
     @OnClick(R.id.toggleFilterButton)
     void toggleFilter() {
-        if (hasEventsListener()) {
-            eventsListener().onFilterToggled(ui);
+        if (hasListener()) {
+            listener().onFilterToggled(ui);
         }
     }
 
@@ -172,12 +173,12 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     };
 
     @Override
-    protected ControlUi.Listener bind(UiWrapperRepository uiWrapperRepository, String instanceId, Bundle savedInstanceState) {
+    protected ControlUi.Listener bind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull String instanceId, Bundle savedInstanceState) {
         return uiWrapperRepository.bind(ui, instanceId, savedInstanceState);
     }
 
     @Override
-    protected void unbind(UiWrapperRepository uiWrapperRepository, String instanceId, Bundle outState, boolean isConfigurationChange) {
+    protected void unbind(@NonNull UiWrapperRepository uiWrapperRepository, @NonNull String instanceId, Bundle outState, boolean isConfigurationChange) {
         uiWrapperRepository.unbind(ui, instanceId, outState, isConfigurationChange);
     }
 }
