@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import com.davidcryer.nightfilter.R;
 import com.davidcryer.nightfilter.android.helpers.AlphaAnimationHelper;
 import com.davidcryer.nightfilter.android.helpers.WindowManagerLayoutParamsFactory;
-import com.davidcryer.nightfilter.platformindependent.helpers.StateChecker;
+import com.davidcryer.nightfilter.platformindependent.helpers.ObjectChecker;
 
 public class FilterService extends Service {
     private final static int ANIMATION_DURATION_FADE_MS = 200;
@@ -108,7 +108,7 @@ public class FilterService extends Service {
     }
 
     private void changeFilter(@ColorRes final int color) {
-        StateChecker.notNull(filterView, "filterView has not been set up");
+        ObjectChecker.notNull(filterView, "filterView has not been set up");
         filterView.setBackgroundColor(ContextCompat.getColor(this, color));
     }
 
