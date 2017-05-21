@@ -8,12 +8,7 @@ import com.davidc.uiwrapper.UiModel;
 import com.davidcryer.nightfilter.android.view.ui.control.ControlUi;
 
 public interface ControlUiModel extends UiModel<ControlUi> {
+    void showControl(final ControlUi ui);
     @TargetApi(Build.VERSION_CODES.M)
-    void requestOverlayPermission(final ControlUi ui);
-    void attachFilter(final ControlUi ui, @ColorRes final int color);
-    void changeFilter(final ControlUi ui, @ColorRes final int color);
-    void unAttachFilter(final ControlUi ui);
-    void animateInControlState(final ControlUi ui);
-    @TargetApi(Build.VERSION_CODES.M)
-    void animateInPermissionNotGranted(final ControlUi ui);
+    void showPermissionNotGranted(final ControlUi ui);
 }

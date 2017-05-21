@@ -2,7 +2,6 @@ package com.davidcryer.nightfilter.android.view.uiwrappers;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 
 import com.davidc.uiwrapper.UiWrapper;
 import com.davidcryer.nightfilter.R;
@@ -36,33 +35,28 @@ class ControlUiWrapper extends UiWrapper<ControlUi, ControlUi.Listener, ControlU
         public void onFilterServiceConnected(ControlUi ui) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!ui.hasOverlayPermission()) {
-                    uiModel().requestOverlayPermission(ui);
+                    ui.requestOverlayPermission();
                     return;
                 }
             }
-            uiModel().animateInControlState(ui);
+            uiModel().showControl(ui);
         }
 
         @Override
         public void onOverlayPermissionReturned(ControlUi ui, boolean permissionGranted) {
             if (permissionGranted) {
-                uiModel().animateInControlState(ui);
+                uiModel().showControl(ui);
             } else {
-                uiModel().animateInPermissionNotGranted(ui);
+                uiModel().showPermissionNotGranted(ui);
             }
-        }
-
-        @Override
-        public void onFilterColorChanged(ControlUi ui, @ColorRes int color) {
-            uiModel().changeFilter(ui, color);
         }
 
         @Override
         public void onFilterToggled(ControlUi ui) {
             if (ui.isFilterAttached()) {
-                uiModel().unAttachFilter(ui);
+                ui.unAttachFilter();
             } else {
-                uiModel().attachFilter(ui, R.color.filter_blue);
+                ui.attachFilter(R.color.filter_blue);
             }
         }
     };

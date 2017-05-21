@@ -15,27 +15,6 @@
             android:layout_height="wrap_content"
             android:text="@string/control.button.toggle" />
 
-        <!-- TODO
-        <Button
-            android:id="@+id/updateFilterButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.design.widget.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/control.input.filterStrength.hint"
-            android:inputType="number"
-            android:digits="3">
-
-            <EditText
-                android:id="@+id/colorFilterEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputEditText>
-        -->
-
     </LinearLayout>
 
     <TextView

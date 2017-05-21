@@ -35,10 +35,6 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     private FilterService.Binder serviceBind;
     @BindView(R.id.toggleFilterButton)
     View toggleFilterButton;
-//    @BindView(R.id.updateFilterButton)
-//    View updateFilterButton;
-//    @BindView(R.id.colorFilterEditText)
-//    EditText colorFilterEditText;
     @BindView(R.id.permissionDeniedTextView)
     TextView permissionDeniedTextView;
 
@@ -92,11 +88,19 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (isOverlayPermissionResult(requestCode)) {
+            handleOverlayPermissionResult();
+        }
+    }
+
+    private boolean isOverlayPermissionResult(final int requestCode) {
+        return requestCode == REQUEST_CODE_OVERLAY_PERMISSION;
+    }
+
+    private void handleOverlayPermissionResult() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (requestCode == REQUEST_CODE_OVERLAY_PERMISSION) {
-                if (hasListener()) {
-                    listener().onOverlayPermissionReturned(ui, Settings.canDrawOverlays(getActivity()));
-                }
+            if (hasListener()) {
+                listener().onOverlayPermissionReturned(ui, Settings.canDrawOverlays(getActivity()));
             }
         }
     }
@@ -134,11 +138,6 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void changeFilter(@ColorRes int color) {
-            serviceBind.changeFilter(color);
-        }
-
-        @Override
         public void unAttachFilter() {
             serviceBind.unAttachFilter();
         }
@@ -156,7 +155,7 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void animateInControlState() {
+        public void animateInControlStateFromBlankState() {
             toggleFilterButton.setVisibility(View.VISIBLE);
         }
 
@@ -167,7 +166,7 @@ public class ControlFragment extends UiFragment<UiWrapperRepository, ControlUi.L
         }
 
         @Override
-        public void animateInPermissionNotGranted() {
+        public void animateInPermissionNotGrantedFromBlankState() {
             permissionDeniedTextView.setVisibility(View.VISIBLE);
         }
     };

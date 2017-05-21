@@ -42,49 +42,20 @@ class ControlUiModelImpl implements ControlUiModel {
         }
     };
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void requestOverlayPermission(ControlUi ui) {
-        if (ui != null) {
-            ui.requestOverlayPermission();
-        }
-    }
-
-    @Override
-    public void attachFilter(ControlUi ui, @ColorRes int color) {
-        if (ui != null) {
-            ui.attachFilter(color);
-        }
-    }
-
-    @Override
-    public void changeFilter(ControlUi ui, @ColorRes int color) {
-        if (ui != null) {
-            ui.changeFilter(color);
-        }
-    }
-
-    @Override
-    public void unAttachFilter(ControlUi ui) {
-        if (ui != null) {
-            ui.unAttachFilter();
-        }
-    }
-
-    @Override
-    public void animateInControlState(ControlUi ui) {
+    public void showControl(ControlUi ui) {
         uiState = UiState.SHOW_CONTROL;
         if (ui != null) {
-            ui.animateInControlState();
+            ui.animateInControlStateFromBlankState();
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void animateInPermissionNotGranted(ControlUi ui) {
+    public void showPermissionNotGranted(ControlUi ui) {
         uiState = UiState.SHOW_PERMISSION_DENIED;
         if (ui != null) {
-            ui.animateInPermissionNotGranted();
+            ui.animateInPermissionNotGrantedFromBlankState();
         }
     }
 
